@@ -7,7 +7,13 @@ const Canvas = (props) => {
 
     const canvasRef = useCanvas(draw);
 
-    return <canvas ref={canvasRef} {...rest} style={{border: '1px solid black'}}/>
+    const handleCanvasClick = (event)=>{
+        debugger;
+        const currentCoord = {x: event.clientX-event.currentTarget.offsetLeft, y: event.clientY-event.currentTarget.offsetTop}
+        props.setCoordinates(currentCoord);
+    }
+
+    return <canvas ref={canvasRef} {...rest} style={{border: '1px solid black'}} onClick={handleCanvasClick}/>
 }
 
 export default Canvas;
