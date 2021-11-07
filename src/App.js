@@ -11,6 +11,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import BrownianWrapper from './Wrappers/BrownianWrapper';
 import PlasmaWrapper from './Wrappers/PlasmaWrapper';
 import ColorsWrapper from './Wrappers/ColorsWrapper'
+import AffineWrapper from './Wrappers/AffineWrapper';
 
 
 
@@ -31,6 +32,10 @@ function App() {
           </Route>
           <Route path ="/colors">
             <ColorsWrapper />
+          </Route>
+
+          <Route path ="/Affine">
+            <AffineWrapper />
           </Route>
 
         </Switch>        

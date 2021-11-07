@@ -232,8 +232,8 @@ const ColorsWrapper = () => {
             <Col>
                 <div style={{margin: '3em'}}>
                     <h4> <b>R:</b> {pointColor && pointColor[0]}  <b>G:</b> {pointColor && pointColor[1]}  <b>B:</b> {pointColor && pointColor[2]} </h4>
-                    <h4> <b>H:</b> {Math.round(rgbToHsl(...pointColor).h*360)}  <b>S:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  <b>L:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  </h4>
-                    <h4> <b>C:</b> {Math.round(rgb2cmyk(...pointColor).c*100)} <b>M:</b> {Math.round(rgb2cmyk(...pointColor).m*100)} <b>Y:</b> {Math.round(rgb2cmyk(...pointColor).y*100)} <b>K:</b> {Math.round(rgb2cmyk(...pointColor).k*100)} </h4>
+                    {pointColor!==undefined && <h4> <b>H:</b> {Math.round(rgbToHsl(...pointColor).h*360)}  <b>S:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  <b>L:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  </h4>}
+                    {<h4> <b>C:</b> {Math.round(rgb2cmyk(...pointColor).c*100)} <b>M:</b> {Math.round(rgb2cmyk(...pointColor).m*100)} <b>Y:</b> {Math.round(rgb2cmyk(...pointColor).y*100)} <b>K:</b> {Math.round(rgb2cmyk(...pointColor).k*100)} </h4>}
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Control type="file" onChange={onSelectFile} />
                     </Form.Group>

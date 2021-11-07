@@ -10,7 +10,8 @@ const Canvas = (props) => {
     const handleCanvasClick = (event)=>{
         debugger;
         const currentCoord = {x: event.clientX-event.currentTarget.offsetLeft, y: event.clientY-event.currentTarget.offsetTop}
-        props.setCoordinates(currentCoord);
+        if(props.setCoordinates!==undefined)
+            props.setCoordinates(currentCoord);
     }
 
     return <canvas ref={canvasRef} {...rest} style={{border: '1px solid black'}} onClick={handleCanvasClick}/>
