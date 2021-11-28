@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Canvas from "../Canvas/Canvas";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-function useForceUpdate(){
+function useForceUpdate() {
     const [value, setValue] = useState(0); // integer state
     return () => setValue(value => value + 1); // update the state to force render
 }
 
-const Plasma = ({ height, width, rectSize, iterations, step }) => {
-   
+const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) => {
+
 
 
     const randomInt = (max) => {
         return Math.floor(Math.random() * max);
     }
 
-
+    useEffect(() => {
+        console.log("COMPLETE COMPONENT RERENDER");
+    }, []);
 
     const rgb4Avg = (color1, color2, color3, color4, mt) => {
         let avgCol = {};
@@ -48,7 +51,7 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
         if (frameCount > 1)
             return;
         ctx.clearRect(0, 0, width, height);
-        
+
 
         let mt = 1;
 
@@ -71,6 +74,7 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
             const newBottomColor = rgb2Avg(colors.bottomLeft, colors.bottomRight);
 
             const newColor = rgb4Avg(colors.bottomRight, colors.bottomLeft, colors.topRight, colors.topLeft, mt);
+            setCtxToSave(ctx);
 
             ctx.fillStyle = `rgb(${newRightColor.r}, ${newRightColor.g}, ${newRightColor.b})`;
             ctx.fillRect(x2, (y1 + y2) / 2, rectSize, rectSize);
@@ -123,8 +127,6 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
             }
             //mt*=Math.pow(2, -Math.random()*0.8);
             //}, 25)
-
-
         }
 
 
@@ -147,7 +149,7 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
         if (frameCount > 1)
             return;
         ctx.clearRect(0, 0, width, height);
-        
+
 
         let mt = 1;
 
@@ -190,40 +192,40 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
             //debugger;                
             //setTimeout(()=>{
             if (myIteration < iterations) {
-                setTimeout(()=>{
-                rectangeDraw(x1, newX, y1, newY, myIteration + 1, {
-                    topLeft: colors.topLeft,
-                    topRight: newTopColor,
-                    bottomRight: newColor,
-                    bottomLeft: newLeftColor
-                });
-            }, 50)
+                setTimeout(() => {
+                    rectangeDraw(x1, newX, y1, newY, myIteration + 1, {
+                        topLeft: colors.topLeft,
+                        topRight: newTopColor,
+                        bottomRight: newColor,
+                        bottomLeft: newLeftColor
+                    });
+                }, 50)
 
-            setTimeout(()=>{
-                rectangeDraw(x1, newX, newY, y2, myIteration + 1, {
-                    topLeft: newLeftColor,
-                    topRight: newColor,
-                    bottomRight: newBottomColor,
-                    bottomLeft: colors.bottomLeft
-                });
-            }, 50)
+                setTimeout(() => {
+                    rectangeDraw(x1, newX, newY, y2, myIteration + 1, {
+                        topLeft: newLeftColor,
+                        topRight: newColor,
+                        bottomRight: newBottomColor,
+                        bottomLeft: colors.bottomLeft
+                    });
+                }, 50)
 
-            setTimeout(()=>{
-                rectangeDraw(newX, x2, y1, newY, myIteration + 1, {
-                    topLeft: newTopColor,
-                    topRight: colors.topRight,
-                    bottomRight: newRightColor,
-                    bottomLeft: newColor
-                });
-            }, 50)
-            setTimeout(()=>{    
-            rectangeDraw(newX, x2, newY, y2, myIteration + 1, {
-                    topLeft: newColor,
-                    topRight: newRightColor,
-                    bottomRight: colors.bottomRight,
-                    bottomLeft: newBottomColor
-                });
-            }, 50)
+                setTimeout(() => {
+                    rectangeDraw(newX, x2, y1, newY, myIteration + 1, {
+                        topLeft: newTopColor,
+                        topRight: colors.topRight,
+                        bottomRight: newRightColor,
+                        bottomLeft: newColor
+                    });
+                }, 50)
+                setTimeout(() => {
+                    rectangeDraw(newX, x2, newY, y2, myIteration + 1, {
+                        topLeft: newColor,
+                        topRight: newRightColor,
+                        bottomRight: colors.bottomRight,
+                        bottomLeft: newBottomColor
+                    });
+                }, 50)
 
             }
             //mt*=Math.pow(2, -Math.random()*0.8);
@@ -231,27 +233,24 @@ const Plasma = ({ height, width, rectSize, iterations, step }) => {
 
 
         }
+        setTimeout(() => {
+            rectangeDraw(0, ctx.canvas.clientWidth, 0, ctx.canvas.clientHeight, 0, {
+                topLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
+                topRight: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
+                bottomRight: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
+                bottomLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) }
+            });
+        }, 50)
 
-
-
-        //ctx.fillRect(0, 0, 5, 5);
-        setTimeout(()=>{ 
-        rectangeDraw(0, ctx.canvas.clientWidth, 0, ctx.canvas.clientHeight, 0, {
-            topLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
-            topRight: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
-            bottomRight: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
-            bottomLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) }
-        });
-    }, 50)
-
-        /*ctx.moveTo(Math.random()*300, Math.random()*300);
-        ctx.lineTo(Math.random()*300, Math.random()*300);
-        ctx.stroke();*/
     }
 
     return (<div>
-        <Canvas draw={step ? drawstep: draw} height={height} width={width} />
+        <TransformWrapper>
+            <TransformComponent>
+                <Canvas draw={step ? drawstep : draw} height={height} width={width} />
+            </TransformComponent>
+        </TransformWrapper>
     </div>);
 }
 
-export default Plasma;
+export const Plasma = React.memo(Plasma1);

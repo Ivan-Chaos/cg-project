@@ -6,11 +6,22 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import {useState} from 'react';
+import Drawer from '@mui/material/Drawer';
 
 export default function MyNavbar() {
-  return (
+  const [openDrawer, setOpenDrawer] = useState(false);
+  return (<div>
+    <Drawer
+      //anchor={'left'} 
+      open={openDrawer}
+    >
+      <div style={{backgroundColor: 'black', height: '100%'}}>
+        <div style={{color: 'white'}}>Навчальна програма</div>
+      </div>
+    </Drawer>
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{background: "black", textAlign: 'center'}}>
+      <AppBar position="static" style={{ background: "black", textAlign: 'center' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -18,6 +29,7 @@ export default function MyNavbar() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={()=>setOpenDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
@@ -28,5 +40,6 @@ export default function MyNavbar() {
         </Toolbar>
       </AppBar>
     </Box>
+  </div>
   );
 }
