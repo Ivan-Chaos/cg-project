@@ -20,7 +20,7 @@ const ColorsWrapper = () => {
     }
     );
 
-    const [src, setSrc] = useState("");
+    const [src, setSrc] = useState("https://github.com/Ivan-Chaos/cg-project/blob/main/src/Wrappers/image3.jpg");
     const [openDialog, setOpenDialog] = useState(false);
 
     const [draw, setDraw] = useState(() => (ctx, frameCount) => { });
@@ -57,6 +57,7 @@ const ColorsWrapper = () => {
 
             var imageObj1 = new Image();
             imageObj1.src = src;
+            imageObj1.crossOrigin = "Anonymous";
             imageObj1.onload = function () {
 
                 const pixelRatio = window.devicePixelRatio;
@@ -91,10 +92,10 @@ const ColorsWrapper = () => {
                         mouseX = e.layerX;
                         mouseY = e.layerY;
                     }
-
-                    let p = ctx.getImageData(mouseX, mouseY, 1, 1).data;
-
-                    setPintColor(p);
+                    if(mouseX!==undefined && mouseY!==undefined){
+                        let p = ctx.getImageData(mouseX, mouseY, 1, 1).data;
+                        setPintColor(p);
+                    }
                 };
             }
 
