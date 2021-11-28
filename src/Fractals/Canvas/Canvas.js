@@ -9,7 +9,7 @@ const Canvas = (props) => {
 
     const handleCanvasClick = (event)=>{
         debugger;
-        const currentCoord = {x: event.clientX-event.currentTarget.offsetLeft, y: event.clientY-event.currentTarget.offsetTop}
+        const currentCoord = {x: event.clientX-88, y: event.clientY-124}
         if(props.setCoordinates!==undefined)
             props.setCoordinates(currentCoord);
     }

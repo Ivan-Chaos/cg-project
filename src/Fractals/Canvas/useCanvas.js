@@ -6,7 +6,7 @@ const useCanvas = draw => {
   
   useEffect(() => {
     
-    const canvas = canvasRef.current
+    const canvas = canvasRef.current;
     const context = canvas.getContext('2d')
     let frameCount = 0
     let animationFrameId
