@@ -42,7 +42,7 @@ const ColorsWrapper = () => {
     }, [src])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setDraw2(() => (ctx, frameCount) => {
             debugger;
             var imageData = ctx.getImageData(0, 0, 700, 500);
@@ -54,11 +54,11 @@ const ColorsWrapper = () => {
     useEffect(() => {
 
         setDraw(() => (ctx, frameCount) => {
-            
+
             var imageObj1 = new Image();
             imageObj1.src = src;
             imageObj1.onload = function () {
-                
+
                 const pixelRatio = window.devicePixelRatio;
 
                 ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -80,14 +80,14 @@ const ColorsWrapper = () => {
                 setCtx1(imageData.data);
                 setCtxToSave(ctx);
 
-                ctx.canvas.onmousemove = function(e) {
+                ctx.canvas.onmousemove = function (e) {
                     var mouseX, mouseY;
-        
-                    if(e.offsetX) {
+
+                    if (e.offsetX) {
                         mouseX = e.offsetX;
                         mouseY = e.offsetY;
                     }
-                    else if(e.layerX) {
+                    else if (e.layerX) {
                         mouseX = e.layerX;
                         mouseY = e.layerY;
                     }
@@ -95,7 +95,7 @@ const ColorsWrapper = () => {
                     let p = ctx.getImageData(mouseX, mouseY, 1, 1).data;
 
                     setPintColor(p);
-              };
+                };
             }
 
 
@@ -151,28 +151,28 @@ const ColorsWrapper = () => {
         return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
     }
 
-    var rgb2cmyk = function(r, g, b, normalized){
+    var rgb2cmyk = function (r, g, b, normalized) {
         var c = 1 - (r / 255);
         var m = 1 - (g / 255);
         var y = 1 - (b / 255);
         var k = Math.min(c, Math.min(m, y));
-        
+
         c = (c - k) / (1 - k);
         m = (m - k) / (1 - k);
         y = (y - k) / (1 - k);
-        
-        if(!normalized){
+
+        if (!normalized) {
             c = Math.round(c * 10000) / 100;
             m = Math.round(m * 10000) / 100;
             y = Math.round(y * 10000) / 100;
             k = Math.round(k * 10000) / 100;
         }
-        
+
         c = isNaN(c) ? 0 : c;
         m = isNaN(m) ? 0 : m;
         y = isNaN(y) ? 0 : y;
         k = isNaN(k) ? 0 : k;
-        
+
         return {
             c: c,
             m: m,
@@ -183,7 +183,7 @@ const ColorsWrapper = () => {
 
     function cyanBrigthness(data, lightness, deviation, originalData) {
         for (var i = 0; i < data.length; i += 4) {
-            
+
             let hsl = rgbToHsl(originalData[i], originalData[i + 1], originalData[i + 2])
             if (hsl.h >= 0.5 - deviation / 360 && hsl.h <= 0.5 + deviation / 360 && hsl.l >= 0.15 && hsl.l <= 0.9) {
                 debugger;
@@ -211,7 +211,7 @@ const ColorsWrapper = () => {
     return (<div>
         <Row>
             <Col>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div>
                         <h1 style={{ textAlign: 'right' }}>До</h1>
                         <Canvas draw={draw} height={500} width={700} />
@@ -230,23 +230,27 @@ const ColorsWrapper = () => {
         </Row>
         <Row>
             <Col>
-                <div style={{margin: '3em'}}>
-                    <h4> <b>R:</b> {pointColor && pointColor[0]}  <b>G:</b> {pointColor && pointColor[1]}  <b>B:</b> {pointColor && pointColor[2]} </h4>
-                    {pointColor!==undefined && <h4> <b>H:</b> {Math.round(rgbToHsl(...pointColor).h*360)}  <b>S:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  <b>L:</b>{Math.round(rgbToHsl(...pointColor).l*100)}  </h4>}
-                    {<h4> <b>C:</b> {Math.round(rgb2cmyk(...pointColor).c*100)} <b>M:</b> {Math.round(rgb2cmyk(...pointColor).m*100)} <b>Y:</b> {Math.round(rgb2cmyk(...pointColor).y*100)} <b>K:</b> {Math.round(rgb2cmyk(...pointColor).k*100)} </h4>}
+                <div style={{ margin: '3em' }}>
+                    { pointColor!==undefined &&
+                        <div>
+                            <h4> <b>R:</b> {pointColor && pointColor[0]}  <b>G:</b> {pointColor && pointColor[1]}  <b>B:</b> {pointColor && pointColor[2]} </h4>
+                            {pointColor !== undefined && <h4> <b>H:</b> {Math.round(rgbToHsl(...pointColor).h * 360)}  <b>S:</b>{Math.round(rgbToHsl(...pointColor).l * 100)}  <b>L:</b>{Math.round(rgbToHsl(...pointColor).l * 100)}  </h4>}
+                            {<h4> <b>C:</b> {Math.round(rgb2cmyk(...pointColor).c * 100)} <b>M:</b> {Math.round(rgb2cmyk(...pointColor).m * 100)} <b>Y:</b> {Math.round(rgb2cmyk(...pointColor).y * 100)} <b>K:</b> {Math.round(rgb2cmyk(...pointColor).k * 100)} </h4>}
+                        </div>
+                    }
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Control type="file" onChange={onSelectFile} />
                     </Form.Group>
                     <Typography id="input-slider" gutterBottom>
                         Яскравість
                     </Typography>
-                    <Slider sx={{ color: 'rgba(0,0,0,0.87)', height: 10}} defaultValue={50} aria-label="Default" valueLabelDisplay="auto" onChange={(e) => setLightness(e.target.value)} />
+                    <Slider sx={{ color: 'rgba(0,0,0,0.87)', height: 10 }} defaultValue={50} aria-label="Default" valueLabelDisplay="auto" onChange={(e) => setLightness(e.target.value)} />
 
                     <Typography id="input-slider" gutterBottom>
                         Відхилення по блакитному кольору
                     </Typography>
-                    <Slider  sx={{ color: 'rgba(0,0,0,0.87)', height: 10}} defaultValue={deviation} max={60} aria-label="Default" valueLabelDisplay="auto" onChange={(e) => setDeviation(e.target.value)} />
-                    <Button variant="dark" onClick={()=>{
+                    <Slider sx={{ color: 'rgba(0,0,0,0.87)', height: 10 }} defaultValue={deviation} max={60} aria-label="Default" valueLabelDisplay="auto" onChange={(e) => setDeviation(e.target.value)} />
+                    <Button variant="dark" onClick={() => {
                         var canvas = ctxToSave.canvas;
                         let timage = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                         var link = document.createElement('a');

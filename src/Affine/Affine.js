@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Slider from '@mui/material/Slider';
 import Canvas from '../../src/Fractals/Canvas/Canvas'
+import { Button } from 'react-bootstrap'
 
 
 function offsetX(v, x_offset, x_scale) {
@@ -209,7 +210,7 @@ function moveAndRotate(length, a, b, c, direction) {
 
 const Affine = ({ height, width, tickCount, triangleCoordinates, setTriangleCoordinates, length, sendClick, setSendClick, direction }) => {
 
-
+    const [ctxToSave, setCtxToSave] = useState(undefined);
     const [tc, setTc] = useState(6);
 
     //click is being delegated from higher above
@@ -224,13 +225,27 @@ const Affine = ({ height, width, tickCount, triangleCoordinates, setTriangleCoor
     const draw = (ctx, frameCount) => {
         ctx.clearRect(0, 0, width, height);
         drawGrid(height / 2, width / 2, tc, tc, ctx);
-        drawTriangle(...triangleCoordinates, ctx, tc + 1, height)
+        drawTriangle(...triangleCoordinates, ctx, tc + 1, height);
+        setCtxToSave(ctx);
     }
 
     return (<div>
         <Canvas draw={draw} height={height} width={width} />
-        <div style={{display: 'flex', flexDirection: 'column', marginTop: '1em'}}>
-            Маштаб
+        <div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: width + "px", alignItems: 'baseline' }}>
+                Маштаб
+                <Button variant="dark" style={{ width: '15em' }} onClick={() => {
+                    var canvas = ctxToSave.canvas;
+                    let timage = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    var link = document.createElement('a');
+                    link.download = "my-image.png";
+                    link.href = timage;
+                    link.click();
+                }}>Завантажити зображення</Button>
+
+            </div>
+
+
             <Slider
                 defaultValue={9}
                 valueLabelDisplay="auto"
@@ -239,7 +254,7 @@ const Affine = ({ height, width, tickCount, triangleCoordinates, setTriangleCoor
                 min={6}
                 max={20}
                 style={{ width: width + "px" }}
-                onChange={(e)=>{
+                onChange={(e) => {
                     setTc(parseInt(e.target.value));
                 }}
             />
