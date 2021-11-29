@@ -10,15 +10,11 @@ function useForceUpdate() {
 const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) => {
 
 
-
+    //рандомне додаткове значення
     const randomInt = (max) => {
         return Math.floor(Math.random() * max);
     }
-
-    useEffect(() => {
-        console.log("COMPLETE COMPONENT RERENDER");
-    }, []);
-
+    //обчислення середніх значень кольорів
     const rgb4Avg = (color1, color2, color3, color4, mt) => {
         let avgCol = {};
         const rv = Math.pow(-1, Math.round(Math.random() * 2)) * Math.random() * 25 * mt;
@@ -27,7 +23,7 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
         avgCol.b = Math.sqrt((Math.pow(color1.b, 2) + Math.pow(color2.b, 2) + Math.pow(color3.b, 2) + Math.pow(color4.b, 2)) / 4) + rv;
         return avgCol;
     }
-
+    //обчислення середніх значень кольорів
     const rgb3Avg = (color1, color2, color3, mt) => {
         let avgCol = {};
         const rv = Math.pow(-1, Math.round(Math.random() * 2)) * Math.random() * 25 * mt;
@@ -36,7 +32,7 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
         avgCol.b = Math.sqrt((Math.pow(color1.b, 2) + Math.pow(color2.b, 2) + Math.pow(color3.b, 2)) / 3) + rv;
         return avgCol;
     }
-
+    //обчислення середніх значень кольорів
     const rgb2Avg = (color1, color2) => {
         let avgCol = {};
         const rv = Math.pow(-1, Math.round(Math.random() * 2)) * Math.random() * 25;
@@ -46,7 +42,7 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
         return avgCol;
     }
 
-
+    //прорисовка плазми
     const draw = (ctx, frameCount) => {
         if (frameCount > 1)
             return;
@@ -60,14 +56,7 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
 
             let newX = (x1 + x2) / 2;
             let newY = (y1 + y2) / 2;
-            /*
-            const newColor = rgb4Avg(colors.bottomRight, colors.bottomLeft, colors.topRight, colors.topLeft, mt);
-            const newRightColor = rgb3Avg(colors.topRight, colors.bottomRight, newColor, mt);
-            const newLeftColor = rgb3Avg(colors.bottomLeft, colors.topLeft, newColor, mt);
-            const newTopColor = rgb3Avg(colors.topLeft, colors.topRight, newColor, mt);
-            const newBottomColor = rgb3Avg(colors.bottomLeft, colors.bottomRight, newColor, mt); 
-            */
-
+        
             const newRightColor = rgb2Avg(colors.topRight, colors.bottomRight);
             const newLeftColor = rgb2Avg(colors.bottomLeft, colors.topLeft);
             const newTopColor = rgb2Avg(colors.topLeft, colors.topRight);
@@ -91,9 +80,6 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
 
             ctx.fillStyle = `rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`;
             ctx.fillRect(newX, newY, rectSize, rectSize);
-
-            //debugger;                
-            //setTimeout(()=>{
             if (myIteration < iterations) {
                 rectangeDraw1(x1, newX, y1, newY, myIteration + 1, {
                     topLeft: colors.topLeft,
@@ -125,13 +111,11 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
 
 
             }
-            //mt*=Math.pow(2, -Math.random()*0.8);
-            //}, 25)
+    
         }
 
 
 
-        //ctx.fillRect(0, 0, 5, 5);
 
         rectangeDraw1(0, ctx.canvas.clientWidth, 0, ctx.canvas.clientHeight, 0, {
             topLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) },
@@ -140,9 +124,7 @@ const Plasma1 = ({ height, width, rectSize, iterations, step, setCtxToSave }) =>
             bottomLeft: { r: randomInt(220), g: randomInt(220), b: randomInt(220) }
         });
 
-        /*ctx.moveTo(Math.random()*300, Math.random()*300);
-        ctx.lineTo(Math.random()*300, Math.random()*300);
-        ctx.stroke();*/
+
     }
 
     const drawstep = (ctx, frameCount) => {

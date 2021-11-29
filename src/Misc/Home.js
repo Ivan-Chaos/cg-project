@@ -61,7 +61,7 @@ const Home = () => {
         <Col>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "90vh" }}>
                 <Card style={{ width: '420px', height: '700px', border: '1px solid black' }}>
-                    <Card.Img style={{ width: '420px', height: '384px', objectFit: 'cover' }} variant="top" src="https://www.researchgate.net/profile/Jelmer-De-Vries/publication/251509419/figure/fig1/AS:387170096435200@1469319952608/Examples-of-all-the-affine-transformations-for-a-simple-geometric-shape.png" />
+                    <Card.Img style={{ width: '418px', height: '384px', objectFit: 'cover' }} variant="top" src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Fractal_fern_explained.png" />
                     <Card.Body>
                         <Card.Title style={{ fontSize: '30pt' }}>Афінні перетворення</Card.Title>
                         <Card.Text style={{ fontSize: '14pt' }}>

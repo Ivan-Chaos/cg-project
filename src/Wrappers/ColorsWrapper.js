@@ -8,6 +8,7 @@ import Canvas from '../Fractals/Canvas/Canvas'
 import ImageDialog from '../Colors/ImageDialog'
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 
 const ColorsWrapper = () => {
@@ -20,7 +21,7 @@ const ColorsWrapper = () => {
     }
     );
 
-    const [src, setSrc] = useState("https://github.com/Ivan-Chaos/cg-project/blob/main/src/Wrappers/image3.jpg");
+    const [src, setSrc] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
 
     const [draw, setDraw] = useState(() => (ctx, frameCount) => { });
@@ -36,11 +37,18 @@ const ColorsWrapper = () => {
 
 
     useEffect(() => {
+        debugger;
         if (src !== "") {
             setOpenDialog(true);
         }
     }, [src])
 
+
+    useEffect(async () => {
+        convertImgToBase64URL('https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&w=1000&q=80', function (base64Img) {
+            setSrc(base64Img)
+        });
+    }, []);
 
     useEffect(() => {
         setDraw2(() => (ctx, frameCount) => {
@@ -92,7 +100,7 @@ const ColorsWrapper = () => {
                         mouseX = e.layerX;
                         mouseY = e.layerY;
                     }
-                    if(mouseX!==undefined && mouseY!==undefined){
+                    if (mouseX !== undefined && mouseY !== undefined) {
                         let p = ctx.getImageData(mouseX, mouseY, 1, 1).data;
                         setPintColor(p);
                     }
@@ -106,6 +114,24 @@ const ColorsWrapper = () => {
     }, [crop])
 
 
+    function convertImgToBase64URL(url, callback, outputFormat) {
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas = document.createElement('CANVAS'),
+                ctx = canvas.getContext('2d'),
+                dataURL;
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 0, 0);
+            dataURL = canvas.toDataURL(outputFormat);
+            callback(dataURL);
+            canvas = null;
+        };
+        img.src = url;
+    }
+
+    //конвертація з RGB до HSL
     function rgbToHsl(r, g, b) {
         r /= 255; g /= 255; b /= 255;
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -126,7 +152,7 @@ const ColorsWrapper = () => {
 
         return { h: h, s: s, l: l };
     }
-
+    //конвертація з HSL до RGB
     function hslToRgb(h, s, l) {
         var r, g, b;
 
@@ -151,7 +177,7 @@ const ColorsWrapper = () => {
 
         return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
     }
-
+    //конвертація в CMYK
     var rgb2cmyk = function (r, g, b, normalized) {
         var c = 1 - (r / 255);
         var m = 1 - (g / 255);
@@ -181,10 +207,11 @@ const ColorsWrapper = () => {
             k: k
         }
     }
+    //зміна яскравості
 
     function cyanBrigthness(data, lightness, deviation, originalData) {
         for (var i = 0; i < data.length; i += 4) {
-
+            //зміна кольору точки
             let hsl = rgbToHsl(originalData[i], originalData[i + 1], originalData[i + 2])
             if (hsl.h >= 0.5 - deviation / 360 && hsl.h <= 0.5 + deviation / 360 && hsl.l >= 0.15 && hsl.l <= 0.9) {
                 debugger;
@@ -202,6 +229,7 @@ const ColorsWrapper = () => {
     const onSelectFile = (e) => {
         if (e.target.files && e.target.files.length > 0) {
             const reader = new FileReader();
+            debugger;
             reader.addEventListener('load', () =>
                 setSrc(reader.result)
             );
@@ -215,7 +243,11 @@ const ColorsWrapper = () => {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div>
                         <h1 style={{ textAlign: 'right' }}>До</h1>
-                        <Canvas draw={draw} height={500} width={700} />
+                        <TransformWrapper>
+                            <TransformComponent>
+                                <Canvas draw={draw} height={500} width={700} />
+                            </TransformComponent>
+                        </TransformWrapper>
                     </div>
                 </div>
             </Col>
@@ -224,7 +256,11 @@ const ColorsWrapper = () => {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div>
                         <h1>Після</h1>
-                        <Canvas draw={draw2} height={500} width={700} />
+                        <TransformWrapper>
+                            <TransformComponent>
+                                <Canvas draw={draw2} height={500} width={700} />
+                            </TransformComponent>
+                        </TransformWrapper>
                     </div>
                 </div>
             </Col>
@@ -232,7 +268,7 @@ const ColorsWrapper = () => {
         <Row>
             <Col>
                 <div style={{ margin: '3em' }}>
-                    { pointColor!==undefined &&
+                    {pointColor !== undefined &&
                         <div>
                             <h4> <b>R:</b> {pointColor && pointColor[0]}  <b>G:</b> {pointColor && pointColor[1]}  <b>B:</b> {pointColor && pointColor[2]} </h4>
                             {pointColor !== undefined && <h4> <b>H:</b> {Math.round(rgbToHsl(...pointColor).h * 360)}  <b>S:</b>{Math.round(rgbToHsl(...pointColor).l * 100)}  <b>L:</b>{Math.round(rgbToHsl(...pointColor).l * 100)}  </h4>}
@@ -240,7 +276,7 @@ const ColorsWrapper = () => {
                         </div>
                     }
                     <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Control type="file" onChange={onSelectFile} />
+                        <Form.Control type="file" onChange={onSelectFile} accept=".jpg,.gif,.png" />
                     </Form.Group>
                     <Typography id="input-slider" gutterBottom>
                         Яскравість
@@ -266,18 +302,24 @@ const ColorsWrapper = () => {
         <Row>
             <Col>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                    <h1>Загальна інформація про кольорні моделі</h1>
+                    <h1>Загальна інформація про колірні моделі</h1>
                 </div>
-                <p style={{ marginLeft: '4em', marginRight: '4em', fontSize: '14pt' }}>    Бро́унівський рух — невпорядкований, хаотичний рух частинки під дією нерівномірних ударів молекул речовини з різних боків у розчинах. Названий на честь ботаніка Роберта Броуна, який спостерігав це явище під мікроскопом у 1827 р. Теорію броунівського руху сформулював у 1905 р. Альберт Ейнштейн.
-
+                <p style={{ marginLeft: '4em', marginRight: '4em', fontSize: '14pt' }}>
                     Призначення колірної моделі - дати засоби опису кольору в межах деякого колірного діапазону, у тому
                     числі і для виконання інтерполяції кольорів.
                     Існують різні моделі, оскільки із зображенням виконуються різні дії: відображення на екран, видрук на
                     принтер, опрацювання кольорів, перетворення в сірі тони, корекція яскравості, інтенсивності і т.п.
                     Кожна модель має своє призначення, тобто ефективна для виконання окремих операцій.
                     Розглянемо апаратно-орієнтовані триколірні моделі RGB, CMY та триатрибутні HSV, HSL.
+
                 </p>
 
+                <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '30px', marginLeft: '5em' }}>
+                    <h2>Як користуватись</h2>
+                </div>
+                <p style={{ marginLeft: '4em', marginRight: '4em', fontSize: '14pt' }}>
+                    За допомогою колеса миші ви можете збільшувати/зменшувати зображення. За допомогою меню Choose file можете завантажити своє зображення. Для найкращого результату вибирайте зображення, які містять багато блакитного кольору. Завантажити модифіковае зображення можна скориставшис опцією "Завантажити файл"
+                </p>
             </Col>
         </Row>
 

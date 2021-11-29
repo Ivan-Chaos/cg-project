@@ -12,6 +12,7 @@ import BrownianWrapper from './Wrappers/BrownianWrapper';
 import PlasmaWrapper from './Wrappers/PlasmaWrapper';
 import ColorsWrapper from './Wrappers/ColorsWrapper'
 import AffineWrapper from './Wrappers/AffineWrapper';
+import GeneralInfo from './Misc/GeneralInfo';
 
 
 
@@ -38,6 +39,10 @@ function App() {
 
           <Route path="/Affine">
             <AffineWrapper />
+          </Route>
+          
+          <Route path='/info'>
+            <GeneralInfo />
           </Route>
 
         </Switch>

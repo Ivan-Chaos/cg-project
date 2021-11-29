@@ -1,4 +1,4 @@
-import {BrownianMotion} from '../Fractals/BrownianMotion/BrownianMotion';
+import { BrownianMotion } from '../Fractals/BrownianMotion/BrownianMotion';
 import { Row, Col, Button } from 'react-bootstrap'
 import TextField from '@mui/material/TextField';
 import { useState } from 'react'
@@ -87,6 +87,12 @@ const BrownianWrapper = () => {
 
                     Відкриття й пояснення броунівського руху мало велике значення для фізики, оскільки було свідченням теплового руху молекул. Браун 1827 року, відкрив хаотичний рух спор плауна у воді. Рух завислих частинок відбувався внаслідок руху молекул. Молекули рідини зіштовхуються з завислими у ній частинками, отже й передають їм імпульс. Таким же чином рухаються частинки фарби у воді, пилинки в променях світла (хоча на рух пилинок також впливають і мікропотоки в повітрі) тощо.</p>
 
+                <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '30px', marginLeft: '5em' }}>
+                    <h2>Як користуватись</h2>
+                </div>
+                <p style={{ marginLeft: '4em', marginRight: '4em', fontSize: '14pt' }}>
+                    Для прорисовки фракталу броунівського руху оберіть бажану кількість ітерацій та довжину кроку, що являє собою довжину індивідуальної ліній. Щоб отрмати найкрасивіший результат обирайте найбільшу кількість ітерацій та найменший крок. Для наглядності перемикачем справа можна ввімкнути покроковий режим.
+                </p>
             </Col>
         </Row>
     </div>);

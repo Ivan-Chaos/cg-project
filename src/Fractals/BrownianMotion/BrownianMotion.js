@@ -8,12 +8,6 @@ const BrownianMotion1 = ({ height, width, fineness, aggressiveness, iterations, 
 
     const [drawable, setDrawable] = useState(false)
 
-    /*const [localCoordinates, setLocalCoordinates] = useState({x: 0, y: 0});
-
-    useEffect(()=>{
-        setLocalCoordinates({...coordinates});
-    }, [coordinates]);*/
-
     let isDrawing = false;
 
     useEffect(() => {
@@ -34,11 +28,12 @@ const BrownianMotion1 = ({ height, width, fineness, aggressiveness, iterations, 
         ctx.beginPath();
         ctx.clearRect(0, 0, width, height);
         isDrawing= true;
+        //повторити n разів симуляцію руху точки
         for (let i = 0; i < iterations; i++) {
-            //setTimeout(()=>{
             ctx.beginPath();
             ctx.strokeStyle = `hsl(${360 / iterations * i}, 100%, ${50 - 50 / iterations * i}%)`;
 
+            //обчислення нового довільного значення на відстані
             let newx = Math.pow(-1, Math.round(Math.random() * 2)) * Math.random() * aggressiveness;
             let newy = Math.pow(-1, Math.round(Math.random() * 2)) * Math.random() * aggressiveness;
 
@@ -52,7 +47,6 @@ const BrownianMotion1 = ({ height, width, fineness, aggressiveness, iterations, 
             coordinates.x += newx;
             coordinates.y += newy;
             ctx.stroke();
-            //}, 0*i);
         }
         isDrawing = false;
     }
