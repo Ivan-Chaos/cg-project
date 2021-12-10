@@ -13,6 +13,8 @@ import PlasmaWrapper from './Wrappers/PlasmaWrapper';
 import ColorsWrapper from './Wrappers/ColorsWrapper'
 import AffineWrapper from './Wrappers/AffineWrapper';
 import GeneralInfo from './Misc/GeneralInfo';
+import Mandlebub from './Mandlebub/Mandlebub';
+import MandlebulbWrapper from './Wrappers/MandelbulbWrapper';
 
 
 
@@ -21,7 +23,7 @@ function App() {
   return (
     <Router>
       <MyNavbar />
-    
+   
       <div className="App">
         <Switch>
           <Route exact path="/">
@@ -39,6 +41,10 @@ function App() {
 
           <Route path="/Affine">
             <AffineWrapper />
+          </Route>
+
+          <Route path="/mandelbulb">
+            <MandlebulbWrapper />
           </Route>
           
           <Route path='/info'>

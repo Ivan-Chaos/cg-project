@@ -48,7 +48,7 @@ export default function MyNavbar() {
           history.push("/info");
           setOpenDrawer(false);
         }}>
-          <InfoIcon className="drawer-icon" /> Інформаці про програму
+          <InfoIcon className="drawer-icon" /> Інформація про програму
         </div>
       </div>
     </Drawer>

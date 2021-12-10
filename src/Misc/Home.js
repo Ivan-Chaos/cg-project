@@ -14,8 +14,8 @@ const Home = () => {
     return (<Row>
         <Col style={{ height: "90vh" }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "90vh" }}>
-                <Card style={{ width: '420px', height: '700px', border: '1px solid black' }}>
-                    <Card.Img style={{ width: '420px', height: '384px' }} variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVnZo7yAZQ_IKfQSX-4qvOqK3RiMF2CZJmaQJSjrLj3gWDmY8i6WEceO4BZgUq19WB2Dk&usqp=CAU" />
+                <Card style={{ width: '500px', height: '700px', border: '1px solid black' }}>
+                    <Card.Img style={{ width: '500px', height: '384px' }} variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVnZo7yAZQ_IKfQSX-4qvOqK3RiMF2CZJmaQJSjrLj3gWDmY8i6WEceO4BZgUq19WB2Dk&usqp=CAU" />
                     <Card.Body>
                         <Card.Title style={{ fontSize: '30pt' }}>Фрактали</Card.Title>
                         <Card.Text style={{ fontSize: '18pt' }}>
@@ -30,6 +30,7 @@ const Home = () => {
                                 <Select>
                                     <MenuItem onClick={() => history.push('/plasma')}>Плазма</MenuItem>
                                     <MenuItem onClick={() => history.push('/brownian')}>Броунівський рух</MenuItem>
+                                    <MenuItem onClick={() => history.push('/mandelbulb')}>Ламобчка Мандельброта</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
@@ -40,8 +41,8 @@ const Home = () => {
 
         <Col>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "90vh" }}>
-                <Card style={{ width: '420px', height: '700px', border: '1px solid black' }}>
-                    <Card.Img style={{ width: '420px', height: '384px', objectFit: 'cover' }} variant="top" src="https://mymodernmet.com/wp/wp-content/uploads/2018/09/basic-color-theory-thumbnail.jpg" />
+                <Card style={{ width: '500px', height: '700px', border: '1px solid black' }}>
+                    <Card.Img style={{ width: '500px', height: '384px', objectFit: 'cover' }} variant="top" src="https://mymodernmet.com/wp/wp-content/uploads/2018/09/basic-color-theory-thumbnail.jpg" />
                     <Card.Body>
                         <Card.Title style={{ fontSize: '30pt' }}>Кольорні моделі</Card.Title>
                         <Card.Text style={{ fontSize: '18pt' }}>
@@ -60,7 +61,7 @@ const Home = () => {
 
         <Col>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "90vh" }}>
-                <Card style={{ width: '420px', height: '700px', border: '1px solid black' }}>
+                <Card style={{ width: '500px', height: '700px', border: '1px solid black' }}>
                     <Card.Img style={{ width: '418px', height: '384px', objectFit: 'cover' }} variant="top" src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Fractal_fern_explained.png" />
                     <Card.Body>
                         <Card.Title style={{ fontSize: '30pt' }}>Афінні перетворення</Card.Title>
