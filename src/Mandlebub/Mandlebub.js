@@ -100,7 +100,7 @@ const Mandlebulb = ({ move, lineMode, Power, startViewAngle, setCtxToSave, Itera
 
     //головна функція обчислення фракталу. Вхідні параметри: вектор з координатами точки. 
     function mandelbulb(pos) {
-
+        debugger;
         setTo(z, pos);
         let dr = 1.0;
         let r = 0.0;
@@ -193,12 +193,12 @@ const Mandlebulb = ({ move, lineMode, Power, startViewAngle, setCtxToSave, Itera
                     break;
                 }
 
-                //Increase rayLocation with direction and d:
+                //Трасувати промені далі:
                 add(rayLocation, scalarMultiply(rayDirection, d));
-                //And reset ray direction:
+                //Ресетнути напрямок променів
                 normalize(rayDirection);
 
-                //Move the pixel location:
+                
                 distanceFromCamera = length(subtract(setTo(temp, nearFieldLocation), rayLocation));
 
                 if (distanceFromCamera > DEPTH_OF_FIELD) {
@@ -227,17 +227,17 @@ const Mandlebulb = ({ move, lineMode, Power, startViewAngle, setCtxToSave, Itera
                 var locationPlusZ = map(rayLocation);
                 rayLocation[2] -= smallStep;
 
-                //Calculate the normal:
+                //Обчислення нормалей:
                 normal[0] = (locationMinX - locationPlusX);
                 normal[1] = (locationMinY - locationPlusY);
                 normal[2] = (locationMinZ - locationPlusZ);
                 normalize(normal);
 
-                //Calculate the ambient light:
+                //обрахувати освітлення заднього фону:
                 var dotNL = dotProduct(lightDirection, normal);
                 var diff = saturate(dotNL);
 
-                //Calculate specular light:
+                //Точкове освітлення:
                 normalize(add(setTo(halfway, rayDirection), lightDirection));
 
                 var dotNH = dotProduct(halfway, normal);
@@ -318,7 +318,7 @@ const Mandlebulb = ({ move, lineMode, Power, startViewAngle, setCtxToSave, Itera
     }
 
     /**
-     * Here we change the camera position and light(s)
+     * рух камери і освітлення для анімацї обертання
      */
     function animateCamera() {
         lightAngle += 20.0;
